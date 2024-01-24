@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Entities;
 
@@ -10,5 +11,6 @@ public class RoleEntity
     [Required]
     public string RoleName { get; set; } = null!;
 
-    public virtual ICollection<UserEntity> User { get; set; }  = new List<UserEntity>();
+
+    public virtual ICollection<UserRoleEntity> UserRole { get; set; }  = new List<UserRoleEntity>();
 }

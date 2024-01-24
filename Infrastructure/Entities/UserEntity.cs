@@ -26,9 +26,5 @@ public class UserEntity
 
     public virtual AddressEntity Address { get; set; } = null!;
 
-    [Required]
-    [ForeignKey(nameof(RoleEntity))]
-    public int RoleId { get; set; }
-
-    public virtual RoleEntity Role { get; set; } = null!; 
+   
 }

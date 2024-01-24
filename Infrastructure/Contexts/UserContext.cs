@@ -23,7 +23,8 @@ public partial class UserContext : DbContext
         public virtual DbSet<AddressEntity> Addresses { get; set; }
         public virtual DbSet<ContactInformationEntity> ContactInformations { get; set; }
         public virtual DbSet<RoleEntity> Roles { get; set; }
-       
+        public virtual DbSet<UserRoleEntity> UserRoles { get; set; }
+
 
 }
 

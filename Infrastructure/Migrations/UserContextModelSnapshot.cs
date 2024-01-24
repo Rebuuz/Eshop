@@ -104,9 +104,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
@@ -114,9 +111,23 @@ namespace Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.UserRoleEntity", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.UserEntity", b =>
@@ -127,13 +138,16 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.UserRoleEntity", b =>
+                {
                     b.HasOne("Infrastructure.Entities.RoleEntity", "Role")
-                        .WithMany("User")
+                        .WithMany("UserRole")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Address");
 
                     b.Navigation("Role");
                 });
@@ -145,7 +159,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Entities.RoleEntity", b =>
                 {
-                    b.Navigation("User");
+                    b.Navigation("UserRole");
                 });
 #pragma warning restore 612, 618
         }
