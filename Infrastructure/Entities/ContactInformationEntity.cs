@@ -6,7 +6,8 @@ namespace Infrastructure.Entities;
 public class ContactInformationEntity
 {
     [Key]
-    public int Id { get; set; }
+    [ForeignKey(nameof(UserEntity))]
+    public Guid UserId { get; set; }
 
     [Required]
     public string FirstName { get; set; } = null!;
@@ -16,7 +17,6 @@ public class ContactInformationEntity
 
     public string? PhoneNumber { get; set; }
 
-    [Required]
-    [ForeignKey (nameof(UserEntity))]
-    public int UserId { get; set; }
+
+    public UserEntity User { get; set; } = null!;
 }

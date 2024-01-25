@@ -12,5 +12,5 @@ public class RoleEntity
     public string RoleName { get; set; } = null!;
 
 
-    public virtual ICollection<UserRoleEntity> UserRole { get; set; }  = new List<UserRoleEntity>();
+    public virtual ICollection<UserEntity> Users { get; set; }  = new List<UserEntity>();
 }

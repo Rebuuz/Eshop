@@ -4,6 +4,7 @@ using Infrastructure.Contexts;
 using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
@@ -17,14 +18,19 @@ public class UserRepo(UserContext userContext) : BaseRepo<UserEntity>(userContex
     {
         try
         {
-            return _userContext.Users.Include(x => x.)
+            //return _userContext.Users.Include(x => x.UserRoles).ThenInclude(x => x.Roles.RoleName).ToList();
         }
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return null!;
     }
 
-    public override UserEntity GetOne(Expression<Func<UserEntity, bool>> predicate)
+    public override UserEntity GetOne(Expression<Func<UserEntity, bool>> predicate) 
     {
-        return base.GetOne(predicate);
+        try
+        {
+            //return _userContext.Users.Include(x => x.UserRoles).ThenInclude(x => x.Roles).Include(x => x.ContactInformation).FirstOrDefault(predicate, null!);
+        }
+        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
+        return null!;
     }
 }

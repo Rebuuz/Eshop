@@ -112,4 +112,15 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return false;
     }
+
+    public virtual bool Exists(Expression<Func<TEntity, bool>> predicate)
+    {
+        try
+        {
+            return _userContext.Set<TEntity>().Any(predicate);
+            
+        }
+        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
+        return false;
+    }
 }

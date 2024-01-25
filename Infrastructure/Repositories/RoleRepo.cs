@@ -16,7 +16,7 @@ public class RoleRepo(UserContext userContext) : BaseRepo<RoleEntity>(userContex
     {
         try
         {
-            return _userContext.Roles.Include(x => x.)
+            //return _userContext.Roles.Include(x => x.UserRole);
         }
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return null!;
