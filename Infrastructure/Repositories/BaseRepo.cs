@@ -58,7 +58,8 @@ public abstract class BaseRepo<TEntity> where TEntity : class
     {
         try
         {
-            return _userContext.Set<TEntity>().FirstOrDefault(predicate, null!); 
+            var result = _userContext.Set<TEntity>().FirstOrDefault(predicate);
+            return result!;
         }
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return null!;
@@ -69,15 +70,15 @@ public abstract class BaseRepo<TEntity> where TEntity : class
     ///  </summary>
     /// <param name = "entity" ></ param >
     /// < returns ></ returns >
-    public virtual TEntity Update(TEntity entity)
+    public TEntity Update(Expression<Func<TEntity, bool>> expression, TEntity entity)
     {
         try
         {
-            var entityToUpdate = _userContext.Set<TEntity>().Find(entity);
+            var entityToUpdate = _userContext.Set<TEntity>().FirstOrDefault(expression, entity);
             if (entityToUpdate != null)
             {
                 entityToUpdate = entity;
-                _userContext.Set<TEntity>().Update(entityToUpdate);
+                _userContext.Entry(entityToUpdate).CurrentValues.SetValues(entity);
                 _userContext.SaveChanges();
 
                 return entityToUpdate;
@@ -96,24 +97,21 @@ public abstract class BaseRepo<TEntity> where TEntity : class
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    public virtual bool Delete(Expression<Func<TEntity, bool>> predicate)
+    public virtual bool Delete(Expression<Func<TEntity, bool>> expression)
     {
         try
         {
-            var entity = _userContext.Set<TEntity>().FirstOrDefault(predicate);
-            if (entity != null)
-            {
-                _userContext.Set<TEntity>().Remove(entity);
-                _userContext.SaveChanges();
+            var entity = _userContext.Set<TEntity>().FirstOrDefault(expression);
+            _userContext.Remove(entity!);
+            _userContext.SaveChanges();
 
-                return true;
-            }
+            return true;
         }
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return false;
     }
 
-    public virtual bool Exists(Expression<Func<TEntity, bool>> predicate)
+    public bool Exists(Expression<Func<TEntity, bool>> predicate)
     {
         try
         {

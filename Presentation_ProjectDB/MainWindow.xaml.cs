@@ -1,4 +1,5 @@
-﻿using Infrastructure.Services;
+﻿using Infrastructure.Dtos;
+using Infrastructure.Services;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,17 +29,17 @@ namespace Presentation_ProjectDB
 
         public void CreateDemoUser()
         {
-            var result = _userService.CreateUser(new Infrastructure.Dtos.User
+            var result = _userService.CreateUser(new UserDto
             {
                 RoleName = "Admin",
-                FirstName = "Ulrik",
+                FirstName = "TestPerson",
                 LastName = "Lager",
                 PhoneNumber = "04454545",
-                Email = "ulrik@domain.se",
+                Email = "testperson@domain.se",
                 StreetName = "Sdffdf",
                 City = "Ddfdfd",
-                PostalCode =  "dfdf",
-                UserName = "Ulriken",
+                PostalCode =  "test10",
+                UserName = "testperson",
                 Password = "Password"  
 
             });

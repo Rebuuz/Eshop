@@ -4,97 +4,127 @@ using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Diagnostics;
 
 namespace Infrastructure.Services;
 
-public class UserService(ContactInformationRepo contactInformationRepo, UserRepo userRepo, RoleRepo roleRepo, AddressRepo addressRepo, AuthenticationRepo authenticationRepo)
+public class UserService(UserRepo userRepo, RoleService roleService, AddressService addressService, ContactInformationService contactInformationService, AuthenticationService authenticationService)
 {
     private readonly UserRepo _userRepo = userRepo;
-    private readonly RoleRepo _roleRepo = roleRepo;
-    private readonly AddressRepo _addressRepo = addressRepo;
-    private readonly ContactInformationRepo _contactInformationRepo = contactInformationRepo;
-    private readonly AuthenticationRepo _authenticationRepo = authenticationRepo;
+    private readonly RoleService _roleService = roleService;
+    private readonly AddressService _addressService = addressService;
+    private readonly ContactInformationService _contactInformationService = contactInformationService;
+    private readonly AuthenticationService _authenticationService = authenticationService;
 
-    public bool CreateUser(User user)
+    /// <summary>
+    /// Creating a user, checking if Role and Address exists before
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    public bool CreateUser(UserDto user)
     {
-        if (!_userRepo.Exists(x => x.Email == user.Email))
+        try
         {
-
-            //var roleEntity = _roleRepo.GetOne(x => x.RoleName == user.RoleName);
-            //roleEntity ??= _roleRepo.Create(new RoleEntity { RoleName = user.RoleName });
-
-            var roleEntity = new RoleEntity
+            if (!_userRepo.Exists(x => x.Email == user.Email))
             {
-                RoleName = user.RoleName
+                var roleEntity = _roleService.CreateRoleEntity(user.RoleName);
+                var addressEntity = _addressService.CreateAddressEntity(user.StreetName, user.City, user.PostalCode);
 
-            };
+                var userEntity = new UserEntity
+                {
+                    Email = user.Email,
+                    RoleId = roleEntity.Id,
+                    AddressId = addressEntity.Id,
+                };
+                
+                var userResult = _userRepo.Create(userEntity);
 
-            var roleResult = _roleRepo.Create(roleEntity);
+                if (userResult != null)
+                {
+                    var contactInformationEntity = _contactInformationService.CreateContactInformationEntity(user.FirstName, user.LastName, userResult.Id, user.PhoneNumber);
+                    var authenticationEntity =  _authenticationService.CreateAuthenticationEntity(user.UserName, user.Password, userResult.Id);
+                }
 
-            var addressEntity = new AddressEntity
-            {
-                StreetName = user.StreetName,
-                City = user.City,
-                PostalCode = user.PostalCode,
-
-            };
-
-            var addressResult = _addressRepo.Create(addressEntity);
-
-            var userEntity = new UserEntity
-            {
-                Email = user.Email,
-                AddressId = addressResult.Id,
-                RoleId = roleEntity.Id
-
-            };
-
-            var userResult = _userRepo.Create(userEntity);
-
-            var contactInformationEntity = new ContactInformationEntity
-            {
-                UserId = userResult.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-
-            };
-
-            var contactInformaitonResult = _contactInformationRepo.Create(contactInformationEntity);
-
-            var authenticationEntity = new AuthenticationEntity
-            {
-                UserId = userResult.Id,
-                UserName = user.UserName,
-                Password = user.Password,
-            };
-
-            var authenticationResult = _authenticationRepo.Create(authenticationEntity);
-
-
-            if (authenticationResult != null)
                 return true;
 
+            }
         }
+        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return false;
+
     }
 
-    public IEnumerable<User> GetAllUsers()
+    /// <summary>
+    /// Get User by Email
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns></returns>
+    public UserEntity GetUserByEmail(string email)
     {
-        var result = _userRepo.GetAll();
-        var users = new List<User>();
-        foreach (var item in result)
-            users.Add(new User
-            {
-                Email = item.Email,
-                FirstName = item.ContactInformation.FirstName,
-                LastName = item.ContactInformation.LastName,
-                PhoneNumber = item.ContactInformation.PhoneNumber,
-                StreetName = item.Address.StreetName,
-                City = item.Address.City,
-                RoleName = item.Role.RoleName,
+        var userEntity = _userRepo.GetOne(x => x.Email == email);
+        return userEntity;
+    }
 
-            });
+    /// <summary>
+    /// Get user by Id 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public UserEntity GetUserById(Guid id)
+    {
+        var userEntity = _userRepo.GetOne(x => x.Id == id);
+        return userEntity;
+    }
+
+    /// <summary>
+    /// Get all users in a list
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<UserEntity> GetAllUsers()
+    {
+        var users = _userRepo.GetAll();
         return users;
     }
+
+    /// <summary>
+    /// Update a user
+    /// </summary>
+    /// <param name="userEntity"></param>
+    /// <returns></returns>
+    public UserEntity UpdateUser(UserEntity userEntity)
+    {
+        var updatedUserEntity = _userRepo.Update(x => x.Id == userEntity.Id, userEntity);
+        return updatedUserEntity;
+    }
+
+    /// <summary>
+    /// Delete a user
+    /// </summary>
+    /// <param name="id"></param>
+    public bool DeleteRole(Guid id)
+    {
+        _userRepo.Delete(x => x.Id == id);
+        return true;
+    }
+
+
+
+    //public IEnumerable<UserDto> GetAllUsers()
+    //{
+    //    var result = _userRepo.GetAll();
+    //    var users = new List<UserDto>();
+    //    foreach (var item in result)
+    //        users.Add(new UserDto
+    //        {
+    //            Email = item.Email,
+    //            FirstName = item.ContactInformation.FirstName,
+    //            LastName = item.ContactInformation.LastName,
+    //            PhoneNumber = item.ContactInformation.PhoneNumber,
+    //            StreetName = item.Address.StreetName,
+    //            City = item.Address.City,
+    //            RoleName = item.Role.RoleName,
+
+    //        });
+    //    return users;
+    //}
 }

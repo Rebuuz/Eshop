@@ -30,6 +30,10 @@ namespace Presentation_ProjectDB
                 services.AddScoped<AuthenticationRepo>();
                 services.AddScoped<ContactInformationRepo>();
                 services.AddScoped<UserService>();
+                services.AddScoped<RoleService>();
+                services.AddScoped<AddressService>();
+                services.AddScoped<ContactInformationService>();
+                services.AddScoped<AuthenticationService>();
 
                 services.AddSingleton<MainWindow>();
                 
