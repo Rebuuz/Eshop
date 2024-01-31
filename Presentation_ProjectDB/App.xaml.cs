@@ -4,6 +4,8 @@ using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Presentation_ProjectDB.ViewModels;
+using Presentation_ProjectDB.Views;
 using System.Configuration;
 using System.Data;
 using System.Windows;
@@ -36,7 +38,9 @@ namespace Presentation_ProjectDB
                 services.AddScoped<AuthenticationService>();
 
                 services.AddSingleton<MainWindow>();
-                
+                services.AddSingleton<UserListViewModel>();
+                services.AddSingleton<UserListView>();
+                services.AddSingleton<MainViewModel>();
 
             }).Build();
         }
@@ -45,8 +49,10 @@ namespace Presentation_ProjectDB
         {
             builder.Start();
 
-            var mainWindow = builder.Services.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            var mainwindow = builder.Services.GetRequiredService<MainWindow>();
+            var mainviewmodel = builder.Services.GetRequiredService<MainViewModel>();
+            mainviewmodel.CurrentViewModel = builder.Services.GetRequiredService<UserListViewModel>();
+            mainwindow.Show();
         }
 
     }

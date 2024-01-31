@@ -16,6 +16,8 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
     private readonly ContactInformationService _contactInformationService = contactInformationService;
     private readonly AuthenticationService _authenticationService = authenticationService;
 
+
+
     /// <summary>
     /// Creating a user, checking if Role and Address exists before
     /// </summary>
@@ -80,20 +82,44 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
     /// Get all users in a list
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<UserEntity> GetAllUsers()
+    public IEnumerable<UserDto> GetAllUsers()
     {
-        var users = _userRepo.GetAll();
-        return users;
+        var users = new List<UserDto>();
+        try
+        {
+            var result = _userRepo.GetAll();
+
+            if (result != null)
+            {
+                foreach (var user in result)
+                    users.Add(new UserDto
+                    {
+                        FirstName = user.ContactInformation.FirstName,
+                        LastName = user.ContactInformation.LastName,
+                        Email = user.Email,
+                        PhoneNumber = user.ContactInformation.PhoneNumber,
+                        RoleName = user.Role.RoleName,
+                        StreetName = user.Address.StreetName,
+                        City = user.Address.City,
+                        PostalCode = user.Address.PostalCode,
+                        UserName = user.Authentication.UserName,
+                        Password = user.Authentication.Password,
+                    });  
+            }
+            return users;
+        }
+        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
+        return null!;
     }
 
     /// <summary>
-    /// Update a user
+    /// Update a user by email instead of guid Id 
     /// </summary>
     /// <param name="userEntity"></param>
     /// <returns></returns>
     public UserEntity UpdateUser(UserEntity userEntity)
     {
-        var updatedUserEntity = _userRepo.Update(x => x.Id == userEntity.Id, userEntity);
+        var updatedUserEntity = _userRepo.Update(x => x.Email == userEntity.Email, userEntity);
         return updatedUserEntity;
     }
 

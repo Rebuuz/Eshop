@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Presentation_ProjectDB.Views.UserListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation_ProjectDB.Views"
+             xmlns:dto="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
+             xmlns:viewmodels="clr-namespace:Presentation_ProjectDB.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:UserListViewModel}"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.Row="0">
+            <Label FontSize="18" FontWeight="SemiBold" HorizontalContentAlignment="Center" Content="List of Contacts" />
+        </StackPanel>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Users}" HorizontalContentAlignment="Stretch" Margin="0,20,0,0">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type dto:UserDto}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <WrapPanel  Grid.Column="0" Orientation="Vertical">
+                            <TextBlock Text="{Binding FirstName}" FontWeight="SemiBold" VerticalAlignment="Center">
+                            </TextBlock>
+                            <TextBlock Foreground="Gray" Text="{Binding Email}"></TextBlock>
+                        </WrapPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button Content="i" Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDetailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                            <Button Content="..." Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToUpdateCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                            <Button Content="x" Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Grid.Row="3">
+            <Button Margin="0,10,0,0" Width="150" Content="Add New Contact" Command="{Binding NavigateToAddCommand}" />
+            <Button Margin="10" Width="150" Content="Go Back to Menu" Command="{Binding NavigateBackCommand}" />
+        </StackPanel>
+    </Grid>
+</UserControl>
