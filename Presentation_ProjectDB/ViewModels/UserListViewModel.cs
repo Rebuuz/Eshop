@@ -1,9 +1,11 @@
 ﻿
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 
 
@@ -19,6 +21,7 @@ public partial class UserListViewModel : ObservableObject
         _sp = sp;
         _userService = userService;
 
+        //Users = new ObservableCollection<UserDto>(_userService.GetAllUsers());
         Users = new ObservableCollection<UserDto>(_userService.GetAllUsers());
     }
 
@@ -27,4 +30,11 @@ public partial class UserListViewModel : ObservableObject
 
     
 
+
+    [RelayCommand]
+    private void NavigateToAddUser()
+    {
+        var mainViewModel = _sp.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _sp.GetRequiredService<AddUserViewModel>();
+    }
 }

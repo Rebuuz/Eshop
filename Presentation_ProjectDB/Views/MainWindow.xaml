@@ -17,7 +17,11 @@
                 <DataTemplate DataType="{x:Type viewmodels:UserListViewModel}">
                     <views:UserListView></views:UserListView>
                 </DataTemplate>
-                
+
+                <DataTemplate DataType="{x:Type viewmodels:AddUserViewModel}">
+                    <views:AddUserView></views:AddUserView>
+                </DataTemplate>
+
             </ContentControl.Resources>
         </ContentControl>
        

@@ -41,6 +41,8 @@ namespace Presentation_ProjectDB
                 services.AddSingleton<UserListViewModel>();
                 services.AddSingleton<UserListView>();
                 services.AddSingleton<MainViewModel>();
+                services.AddSingleton<AddUserViewModel>();
+                services.AddSingleton<AddUserView>();
 
             }).Build();
         }

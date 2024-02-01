@@ -84,7 +84,8 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
     /// <returns></returns>
     public IEnumerable<UserDto> GetAllUsers()
     {
-        var users = new List<UserDto>();
+        ////var users = new List<UserDto>();
+        List<UserDto> users = new List<UserDto>();
         try
         {
             var result = _userRepo.GetAll();
@@ -104,12 +105,15 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
                         PostalCode = user.Address.PostalCode,
                         UserName = user.Authentication.UserName,
                         Password = user.Authentication.Password,
-                    });  
+                    });
             }
             return users;
         }
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return null!;
+        
+
+
     }
 
     /// <summary>
