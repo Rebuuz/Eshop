@@ -22,6 +22,14 @@
                     <views:AddUserView></views:AddUserView>
                 </DataTemplate>
 
+                <DataTemplate DataType="{x:Type viewmodels:DetailsUserViewModel}">
+                    <views:DetailUserView></views:DetailUserView>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:UpdateUserViewModel}">
+                    <views:UpdateUserView></views:UpdateUserView>
+                </DataTemplate>
+
             </ContentControl.Resources>
         </ContentControl>
        

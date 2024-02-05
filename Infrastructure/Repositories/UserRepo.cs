@@ -33,4 +33,22 @@ public class UserRepo(UserContext userContext) : BaseRepo<UserEntity>(userContex
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return null!;
     }
+
+    public override async Task<UserEntity> GetOneAsync(Expression<Func<UserEntity, bool>> predicate)
+    {
+        try
+        {
+            var result = await _userContext.Users
+                .Include(x => x.Role)
+                .Include(x => x.ContactInformation)
+                .Include(x => x.Address)
+                .Include(x => x.Authentication)
+                .FirstOrDefaultAsync(predicate);
+            return result;
+        }
+        catch
+        {
+
+        }return null!;
+    }
 }

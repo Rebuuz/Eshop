@@ -38,11 +38,15 @@ namespace Presentation_ProjectDB
                 services.AddScoped<AuthenticationService>();
 
                 services.AddSingleton<MainWindow>();
-                services.AddSingleton<UserListViewModel>();
-                services.AddSingleton<UserListView>();
+                services.AddTransient<UserListViewModel>();
+                services.AddTransient<UserListView>();
                 services.AddSingleton<MainViewModel>();
-                services.AddSingleton<AddUserViewModel>();
-                services.AddSingleton<AddUserView>();
+                services.AddTransient<AddUserViewModel>();
+                services.AddTransient<AddUserView>();
+                services.AddTransient<DetailsUserViewModel>();
+                services.AddTransient<DetailUserView>();
+                services.AddTransient<UpdateUserViewModel>();
+                services.AddTransient<UpdateUserView>();
 
             }).Build();
         }

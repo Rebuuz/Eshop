@@ -70,6 +70,12 @@ public class RoleService
         return updatedRoleEntity;
     }
 
+    //public async Task<RoleEntity> UpdateUser(RoleEntity role)
+    //{
+    //    var updatedRoleEntity = await _roleRepo.Update(x => x.Id == role.Id, role);
+    //    return updatedRoleEntity;
+    //}
+
     /// <summary>
     /// Delete a role
     /// </summary>

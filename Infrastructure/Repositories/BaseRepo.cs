@@ -1,6 +1,8 @@
 ﻿
 
 using Infrastructure.Contexts;
+using Infrastructure.Dtos;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update.Internal;
 using System;
 using System.Diagnostics;
@@ -65,6 +67,17 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return null!;
     }
 
+    public virtual async Task <TEntity> GetOneAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        try
+        {
+            var result = await _userContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            return result!;
+        }
+        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
+        return null!;
+    }
+
     ///<summary>
     /// Update item in list
     ///  </summary>
@@ -88,15 +101,37 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return null!;
     }
 
+    public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity entity)
+    {
+        try
+        {
+            var entityToUpdate = await _userContext.Set<TEntity>().FirstOrDefaultAsync(expression);
+            if (entityToUpdate != null)
+            {
+                _userContext.Entry(entityToUpdate).CurrentValues.SetValues(entity);
+                await _userContext.SaveChangesAsync();
+
+                return entityToUpdate;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
+        return null!;
+    }
+
+
+
+
+
+
     /////Update 
     //public abstract TEntity Update(TEntity entity);
 
 
-    /// <summary>
-    /// Delete item in list
-    /// </summary>
-    /// <param name="predicate"></param>
-    /// <returns></returns>
+        /// <summary>
+        /// Delete item in list
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
     public virtual bool Delete(Expression<Func<TEntity, bool>> expression)
     {
         try

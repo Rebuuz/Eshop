@@ -2,9 +2,11 @@
 
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
+using Infrastructure.Migrations;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Diagnostics;
+using System.Net.WebSockets;
 
 namespace Infrastructure.Services;
 
@@ -16,7 +18,7 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
     private readonly ContactInformationService _contactInformationService = contactInformationService;
     private readonly AuthenticationService _authenticationService = authenticationService;
 
-
+    public UserDto CurrentUser { get; set; } = null!;
 
     /// <summary>
     /// Creating a user, checking if Role and Address exists before
@@ -121,40 +123,91 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
     /// </summary>
     /// <param name="userEntity"></param>
     /// <returns></returns>
-    public UserEntity UpdateUser(UserEntity userEntity)
+    //public UserEntity UpdateUser()
+    //{
+    //    var updatedUserEntity = _userRepo.Update(x => x.Email == x.Email);
+    //    return updatedUserEntity;
+    //}
+
+    //public async Task<UserDto> UpdateUserAsync(UserDto user)
+    //{
+    //    var updatedUserEntity = await _userRepo.UpdateAsync(x => x.Email == user.Email, user);
+    //    return updatedUserEntity;
+    //}
+
+    ///Uppdaterar inte till databasen... 
+    //public async Task<UserDto> UpdateUserAsync(UserDto updatedUser)
+    //{
+    //    try
+    //    {
+    //        var userEntity = new UserEntity { Email = updatedUser.Email };
+    //        var updatedUserEntity = await _userRepo.UpdateAsync(x => x.Email == updatedUser.Email, userEntity);
+
+    //        if (updatedUserEntity != null)
+    //        {
+    //            var user = new UserDto
+    //            {
+    //                FirstName = updatedUser.FirstName,
+    //                LastName = updatedUser.LastName,
+    //                Email = updatedUser.Email,
+    //                PhoneNumber = updatedUser.PhoneNumber,
+    //                RoleName = updatedUser.RoleName,
+    //                StreetName = updatedUser.StreetName,
+    //                City = updatedUser.City,
+    //                PostalCode = updatedUser.PostalCode,
+    //                UserName = updatedUser.UserName,
+    //                Password = updatedUser.Password,
+    //            };
+    //            return user;
+    //        }
+    //    }catch (Exception ex)
+    //    {
+    //        Debug.WriteLine("ERROR ::" + ex.Message );  
+    //    }
+    //    return null!;
+    //}
+
+    public async Task<UserEntity> UpdateUserAsync(UserDto updatedUser)
     {
-        var updatedUserEntity = _userRepo.Update(x => x.Email == userEntity.Email, userEntity);
-        return updatedUserEntity;
+        try
+        {
+            var existingUserEntity = await _userRepo.GetOneAsync(x => x.Email == updatedUser.Email);
+
+            if (existingUserEntity != null)
+            {
+                existingUserEntity.Email = updatedUser.Email;
+                existingUserEntity.ContactInformation.FirstName = updatedUser.FirstName;
+                existingUserEntity.ContactInformation.LastName = updatedUser.LastName;
+                existingUserEntity.ContactInformation.PhoneNumber = updatedUser.PhoneNumber;
+
+                existingUserEntity.Address.StreetName = updatedUser.StreetName;
+                existingUserEntity.Address.PostalCode = updatedUser.PostalCode;
+                existingUserEntity.Address.City = updatedUser.City;
+
+                existingUserEntity.Role.RoleName = updatedUser.RoleName;
+
+                existingUserEntity.Authentication.UserName = updatedUser.UserName;
+                existingUserEntity.Authentication.Password = updatedUser.Password;
+
+                return await _userRepo.UpdateAsync(x => x.Email == updatedUser.Email, existingUserEntity);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("ERROR :: " + ex.Message);
+        }
+
+        return null!;
     }
 
     /// <summary>
     /// Delete a user
     /// </summary>
     /// <param name="id"></param>
-    public bool DeleteRole(Guid id)
+    public bool Delete(UserDto userDto)
     {
-        _userRepo.Delete(x => x.Id == id);
+        _userRepo.Delete(x => x.Email == userDto.Email);
         return true;
     }
 
-
-
-    //public IEnumerable<UserDto> GetAllUsers()
-    //{
-    //    var result = _userRepo.GetAll();
-    //    var users = new List<UserDto>();
-    //    foreach (var item in result)
-    //        users.Add(new UserDto
-    //        {
-    //            Email = item.Email,
-    //            FirstName = item.ContactInformation.FirstName,
-    //            LastName = item.ContactInformation.LastName,
-    //            PhoneNumber = item.ContactInformation.PhoneNumber,
-    //            StreetName = item.Address.StreetName,
-    //            City = item.Address.City,
-    //            RoleName = item.Role.RoleName,
-
-    //        });
-    //    return users;
-    //}
 }
