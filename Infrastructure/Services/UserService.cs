@@ -1,5 +1,6 @@
 ﻿
 
+using Infrastructure.Contexts;
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Migrations;
@@ -10,13 +11,14 @@ using System.Net.WebSockets;
 
 namespace Infrastructure.Services;
 
-public class UserService(UserRepo userRepo, RoleService roleService, AddressService addressService, ContactInformationService contactInformationService, AuthenticationService authenticationService)
+public class UserService(UserContext userContext, UserRepo userRepo, RoleService roleService, AddressService addressService, ContactInformationService contactInformationService, AuthenticationService authenticationService)
 {
     private readonly UserRepo _userRepo = userRepo;
     private readonly RoleService _roleService = roleService;
     private readonly AddressService _addressService = addressService;
     private readonly ContactInformationService _contactInformationService = contactInformationService;
     private readonly AuthenticationService _authenticationService = authenticationService;
+    private readonly UserContext _userContext = userContext;
 
     public UserDto CurrentUser { get; set; } = null!;
 
@@ -97,6 +99,7 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
                 foreach (var user in result)
                     users.Add(new UserDto
                     {
+                        Id = user.Id,
                         FirstName = user.ContactInformation.FirstName,
                         LastName = user.ContactInformation.LastName,
                         Email = user.Email,
@@ -175,7 +178,9 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
             if (existingUserEntity != null)
             {
                 existingUserEntity.Email = updatedUser.Email;
+                await _userContext.SaveChangesAsync();
                 return await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, existingUserEntity);
+                
             }
         }
         catch
@@ -189,7 +194,16 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
     {
         try
         {
+
             var existingUserEntity = await _userRepo.GetOneAsync(x => x.Id == updatedUser.Id);
+            // kontrollera om email finns och om den finns mot annat id .
+            //  if (existingUserEntity.email != updatedUser.emil && _service.Exists (x => x.email == updatedUser.email && x.id != updatedUser.id)
+            // { return false }
+            // ... fortsätterden med update
+
+             
+
+
 
             if (existingUserEntity != null)
             {
@@ -203,12 +217,16 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
                 existingUserEntity.ContactInformation.LastName = updatedUser.LastName;
                 existingUserEntity.ContactInformation.PhoneNumber = updatedUser.PhoneNumber;
 
+
                 existingUserEntity.Authentication.UserName = updatedUser.UserName;
                 existingUserEntity.Authentication.Password = updatedUser.Password;
-                
-                existingUserEntity.Email = updatedUser.Email;
 
-                return await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, existingUserEntity);
+
+                existingUserEntity.Email = updatedUser.Email;
+                existingUserEntity.Id = existingUserEntity.Id; 
+
+                var result = await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, existingUserEntity);
+                return result;
             }
         }
         catch (Exception ex)

@@ -40,6 +40,14 @@ public partial class UpdateUserViewModel : ObservableObject
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
     }
+    [RelayCommand]
+    private async Task UpdateUserEmail()
+    {
+        await _userService.UpdateEmailAsync(User);
+
+        var mainVewModel = _sp.GetRequiredService<MainViewModel>();
+        mainVewModel.CurrentViewModel = _sp.GetRequiredService<DetailsUserViewModel>();
+    }
 
 
 }

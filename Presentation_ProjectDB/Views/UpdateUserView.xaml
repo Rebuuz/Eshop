@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Presentation_ProjectDB.Views.UpdateUserView"
+﻿                                       <UserControl x:Class="Presentation_ProjectDB.Views.UpdateUserView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -39,6 +39,7 @@
             <Label Content="Password"></Label>
             <TextBox Text="{Binding Password}"></TextBox>
             <Button Content="Save User" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateUserCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+            <Button Content="Save Email" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateUserEmailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
             <Button Height="20" Width="200" Margin="0,20,0,0" Content="Go Back to List" Command="{Binding NavigateToListCommand}" />
         </StackPanel>
     </Grid>

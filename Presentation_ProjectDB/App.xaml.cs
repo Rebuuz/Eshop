@@ -24,7 +24,7 @@ namespace Presentation_ProjectDB
         {
             builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
             {
-               services.AddDbContext<UserContext>(x => x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\EC\Datalagring\ProjectDB\Infrastructure\Data\users_db.mdf;Integrated Security=True;Connect Timeout=30"));
+               services.AddDbContext<UserContext>(x => x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\EC\Datalagring\ProjectDB\Infrastructure\Data\users_db.mdf;Integrated Security=True;Connect Timeout=30"), ServiceLifetime.Transient);
 
                 services.AddScoped<RoleRepo>();
                 services.AddScoped<AddressRepo>();
