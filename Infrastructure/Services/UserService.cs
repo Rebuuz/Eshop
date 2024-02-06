@@ -167,29 +167,48 @@ public class UserService(UserRepo userRepo, RoleService roleService, AddressServ
     //    return null!;
     //}
 
+    public async Task<UserEntity> UpdateEmailAsync(UserDto updatedUser)
+    {
+        try
+        {
+            var existingUserEntity = await _userRepo.GetOneAsync(x => x.Id == updatedUser.Id);
+            if (existingUserEntity != null)
+            {
+                existingUserEntity.Email = updatedUser.Email;
+                return await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, existingUserEntity);
+            }
+        }
+        catch
+        {
+
+        }
+        return null!;
+    }
+
     public async Task<UserEntity> UpdateUserAsync(UserDto updatedUser)
     {
         try
         {
-            var existingUserEntity = await _userRepo.GetOneAsync(x => x.Email == updatedUser.Email);
+            var existingUserEntity = await _userRepo.GetOneAsync(x => x.Id == updatedUser.Id);
 
             if (existingUserEntity != null)
             {
-                existingUserEntity.Email = updatedUser.Email;
-                existingUserEntity.ContactInformation.FirstName = updatedUser.FirstName;
-                existingUserEntity.ContactInformation.LastName = updatedUser.LastName;
-                existingUserEntity.ContactInformation.PhoneNumber = updatedUser.PhoneNumber;
+                existingUserEntity.Role.RoleName = updatedUser.RoleName;
 
                 existingUserEntity.Address.StreetName = updatedUser.StreetName;
                 existingUserEntity.Address.PostalCode = updatedUser.PostalCode;
                 existingUserEntity.Address.City = updatedUser.City;
 
-                existingUserEntity.Role.RoleName = updatedUser.RoleName;
+                existingUserEntity.ContactInformation.FirstName = updatedUser.FirstName;
+                existingUserEntity.ContactInformation.LastName = updatedUser.LastName;
+                existingUserEntity.ContactInformation.PhoneNumber = updatedUser.PhoneNumber;
 
                 existingUserEntity.Authentication.UserName = updatedUser.UserName;
                 existingUserEntity.Authentication.Password = updatedUser.Password;
+                
+                existingUserEntity.Email = updatedUser.Email;
 
-                return await _userRepo.UpdateAsync(x => x.Email == updatedUser.Email, existingUserEntity);
+                return await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, existingUserEntity);
             }
         }
         catch (Exception ex)

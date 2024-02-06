@@ -13,6 +13,8 @@ public class UserDto
     public string PostalCode { get; set; } = null!;
     public string RoleName { get; set; } = null!;
 
+    public Guid Id { get; set; }
+
     public string UserName { get; set; } = null!;
     public string Password { get; set; } = null!;
 }                                                                                                               

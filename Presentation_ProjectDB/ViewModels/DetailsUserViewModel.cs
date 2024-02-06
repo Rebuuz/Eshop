@@ -57,6 +57,8 @@ public partial class DetailsUserViewModel : ObservableObject
     [RelayCommand]
     private void NavigateToUpdate()
     {
+        _userService.CurrentUser = userDto;
+
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UpdateUserViewModel>();
     }

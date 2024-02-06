@@ -44,7 +44,7 @@ public class UserRepo(UserContext userContext) : BaseRepo<UserEntity>(userContex
                 .Include(x => x.Address)
                 .Include(x => x.Authentication)
                 .FirstOrDefaultAsync(predicate);
-            return result;
+            return result!;
         }
         catch
         {

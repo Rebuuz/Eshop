@@ -39,7 +39,7 @@
             <Label Content="Password"></Label>
             <TextBox Text="{Binding Password}"></TextBox>
             <Button Content="Save User" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateUserCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-            <Button Height="20" Width="200" Margin="0,20,0,0" Content="Go Back to Menu" Command="{Binding NavigateBackCommand}" />
+            <Button Height="20" Width="200" Margin="0,20,0,0" Content="Go Back to List" Command="{Binding NavigateToListCommand}" />
         </StackPanel>
     </Grid>
 </UserControl>
