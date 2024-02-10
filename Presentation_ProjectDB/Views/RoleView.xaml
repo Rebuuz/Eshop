@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Presentation_ProjectDB.Views.RoleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation_ProjectDB.Views"
+             xmlns:dto="clr-namespace:Infrastructure.Dtos;assembly=Infrastructure"
+             xmlns:viewmodels="clr-namespace:Presentation_ProjectDB.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:RoleViewModel}"
+             
+             mc:Ignorable="d" d:DesignWidth="1000" Height="500">
+    <Grid Background="#252B48" Margin="0,0,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Label Margin="20,0,0,0" Padding="10" Foreground="#FFFFFF" FontFamily="Calibri" FontSize="20" HorizontalContentAlignment="Left" Content="List of All Roles" />
+        </StackPanel>
+
+        <TextBox Margin="20" Padding="10" Grid.Column="0" Grid.Row="0" Text="{Binding Role.RoleName}"></TextBox>
+        <Button HorizontalAlignment="Right" Grid.Column="1" Height="30"  Width="auto" Content="Add Role" Command="{Binding AddRoleToListCommand}" BorderBrush="#060811" Margin="10,0,20,0" BorderThickness="2,2,2,2" Background="#F0F0F0" Padding="5,5,5,5" />
+
+
+        <ListView Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Roles}" HorizontalContentAlignment="Stretch" Margin="20"  BorderBrush="#FF02040C" BorderThickness="2,2,2,2" Height="400" VerticalAlignment="Top">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type dto:RoleDto}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <WrapPanel  Grid.Column="0" Orientation="Vertical">
+                            <TextBlock Text="{Binding RoleName}" FontWeight="SemiBold" VerticalAlignment="Center">
+                            </TextBlock>
+                        </WrapPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button BorderBrush="#060811" Background="#E1AA74" Content="..." Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateRoleCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                            <Button BorderBrush="#060811" Background="#9A3B3B" Content="x" Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

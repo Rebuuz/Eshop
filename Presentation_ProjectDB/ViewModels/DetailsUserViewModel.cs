@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Printing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace Presentation_ProjectDB.ViewModels;
 
@@ -21,11 +22,10 @@ public partial class DetailsUserViewModel : ObservableObject
         _sp = sp;
         _userService = userService;
 
+
         UserDto = _userService.CurrentUser;
         
     }
-
-     
 
     [ObservableProperty]
     private UserDto userDto = new();
@@ -57,7 +57,7 @@ public partial class DetailsUserViewModel : ObservableObject
     [RelayCommand]
     private void NavigateToUpdate()
     {
-        _userService.CurrentUser = userDto;
+        _userService.CurrentUser = UserDto;
 
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UpdateUserViewModel>();

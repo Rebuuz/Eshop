@@ -12,19 +12,5 @@ public class RoleRepo(UserContext userContext) : BaseRepo<RoleEntity>(userContex
 {
     private readonly UserContext _userContext = userContext;
 
-    public override IEnumerable<RoleEntity> GetAll()
-    {
-        try
-        {
-            //return _userContext.Roles.Include(x => x.UserRole);
-        }
-        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
-        return null!;
-    }
-
-    public override RoleEntity GetOne(Expression<Func<RoleEntity, bool>> predicate)
-    {
-        return base.GetOne(predicate);
-    }
 }
 

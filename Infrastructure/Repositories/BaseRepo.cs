@@ -37,6 +37,18 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return null!;
     }
 
+    public virtual async Task<TEntity> CreateAsync(TEntity entity)
+    {
+        try
+        {
+            _userContext.Set<TEntity>().Add(entity);
+             await _userContext.SaveChangesAsync();
+            return entity;
+        }
+        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
+        return null!;
+    }
+
     /// <summary>
     /// Get all from the list
     /// </summary>
@@ -118,7 +130,17 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return null!;
     }
 
-
+    public virtual async Task<TEntity> UpdateOneAsync(TEntity entity)
+    {
+        try
+        {
+            _userContext.Set<TEntity>().Update(entity);
+            await _userContext.SaveChangesAsync();
+            return entity;
+        }
+        catch { }
+        return null!;
+    }
 
 
 

@@ -162,7 +162,7 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Infrastructure.Entities.RoleEntity", "Role")
-                        .WithMany("UserRole")
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -179,7 +179,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Entities.RoleEntity", b =>
                 {
-                    b.Navigation("UserRole");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.UserEntity", b =>

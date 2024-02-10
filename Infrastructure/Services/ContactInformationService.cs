@@ -1,5 +1,6 @@
 ﻿
 
+using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
 using System.Diagnostics;
@@ -29,22 +30,35 @@ public class ContactInformationService
         try
         {
 
-                var contactInformationEntity = new ContactInformationEntity()
-                {
-                    UserId = userId,
-                    FirstName = firstName,
-                    LastName = lastName,
-                    PhoneNumber = phoneNumber
-                };
-                var result = _contactInformationRepo.Create(contactInformationEntity);
-                if (result != null)
-                    return result;
+            var contactInformationEntity = new ContactInformationEntity()
+            {
+                UserId = userId,
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = phoneNumber
+            };
+            var result = _contactInformationRepo.Create(contactInformationEntity);
+            if (result != null)
+                return result;
 
         }
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
         return null!;
 
 
+    }
+
+    public async Task<ContactInformationDto> CreateContactInformationAsync(string firstname, string lastname, string? phonenumber, Guid userId)
+    {
+        try
+        {
+            var result = await _contactInformationRepo.GetOneAsync(x => x.FirstName == firstname && x.LastName == lastname && x.PhoneNumber == phonenumber && x.UserId == userId );
+            result ??= await _contactInformationRepo.CreateAsync(new ContactInformationEntity { FirstName = firstname, LastName = lastname, PhoneNumber = phonenumber, UserId = userId });
+
+            return new ContactInformationDto { FirstName = result.FirstName, LastName = result.LastName, PhoneNumber = result.PhoneNumber, UserId = result.UserId };
+        }
+        catch { }
+        return null!;
     }
 
     /// <summary>

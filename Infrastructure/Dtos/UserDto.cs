@@ -15,6 +15,15 @@ public class UserDto
 
     public Guid Id { get; set; }
 
+    /// <summary>
+    /// Authentication 
+    /// </summary>
     public string UserName { get; set; } = null!;
     public string Password { get; set; } = null!;
+
+    public RoleDto RoleDto { get; set; } = null!;
+    public AddressDto AddressDto { get; set; } = null!;
+
+    public AuthenticationDto AuthenticationDto { get; set; } = null!;
+    public ContactInformationDto ContactInformationDto { get; set; } = null!;
 }                                                                                                               

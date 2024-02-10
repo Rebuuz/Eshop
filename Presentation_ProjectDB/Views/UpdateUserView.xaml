@@ -11,9 +11,9 @@
              d:DesignHeight="800" d:DesignWidth="600">
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="700" />
-            <RowDefinition Height="*" />
-            
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
         </Grid.RowDefinitions>
 
         <StackPanel DataContext="{Binding User}" Grid.Row="0">
@@ -40,7 +40,7 @@
             <TextBox Text="{Binding Password}"></TextBox>
             <Button Content="Save User" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateUserCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
             <Button Content="Save Email" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateUserEmailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-            <Button Height="20" Width="200" Margin="0,20,0,0" Content="Go Back to List" Command="{Binding NavigateToListCommand}" />
         </StackPanel>
+        <Button Grid.Row="1" Height="20" Width="200" Margin="0,20,0,0" Content="Go Back to List" Command="{Binding NavigateToListCommand}" />
     </Grid>
 </UserControl>

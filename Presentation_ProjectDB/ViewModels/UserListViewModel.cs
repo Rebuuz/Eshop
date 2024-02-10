@@ -24,12 +24,15 @@ public partial class UserListViewModel : ObservableObject
 
         
         Users = new ObservableCollection<UserDto>(_userService.GetAllUsers());
+
+        UserDto = _userService.CurrentUser;
     }
 
     [ObservableProperty]
-    private ObservableCollection<UserDto> _users = new ObservableCollection<UserDto>();
+    private UserDto userDto = new();
 
-    
+    [ObservableProperty]
+    private ObservableCollection<UserDto> _users = new ObservableCollection<UserDto>();
 
 
     [RelayCommand]
@@ -62,6 +65,21 @@ public partial class UserListViewModel : ObservableObject
             mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
         }
 
+    }
 
+    [RelayCommand]
+    private void NavigateToUpdate(UserDto user)
+    {
+        _userService.CurrentUser = user;
+
+        var mainViewModel = _sp.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _sp.GetRequiredService<UpdateUserViewModel>();
+    }
+
+    [RelayCommand]
+    private void NavigateToRoleList()
+    {
+        var mainViewModel = _sp.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _sp.GetRequiredService<RoleViewModel>();
     }
 }

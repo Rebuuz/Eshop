@@ -30,6 +30,14 @@
                     <views:UpdateUserView></views:UpdateUserView>
                 </DataTemplate>
 
+                <DataTemplate DataType="{x:Type viewmodels:RoleViewModel}">
+                    <views:RoleView></views:RoleView>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:UpdateRoleViewModel}">
+                    <views:UpdateRoleView></views:UpdateRoleView>
+                </DataTemplate>
+
             </ContentControl.Resources>
         </ContentControl>
        

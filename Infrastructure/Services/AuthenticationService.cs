@@ -1,4 +1,5 @@
 ﻿
+using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
 using System.Diagnostics;
@@ -43,6 +44,19 @@ public class AuthenticationService
         return null!;
 
 
+    }
+
+    public async Task<AuthenticationDto> CreateAuthenticationAsync(string username, string password, Guid userId)
+    {
+        try
+        {
+            var result = await _authenticationRepo.GetOneAsync(x => x.UserName == username && x.Password == password && x.UserId == userId );
+            result ??= await _authenticationRepo.CreateAsync(new AuthenticationEntity { Password = password, UserName = username, UserId = userId });
+
+            return new AuthenticationDto { UserName = result.UserName, Password = result.Password, UserId = result.UserId};
+        }
+        catch { }
+        return null!;
     }
 
     /// <summary>

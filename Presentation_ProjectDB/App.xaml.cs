@@ -47,6 +47,10 @@ namespace Presentation_ProjectDB
                 services.AddTransient<DetailUserView>();
                 services.AddTransient<UpdateUserViewModel>();
                 services.AddTransient<UpdateUserView>();
+                services.AddTransient<RoleView>();
+                services.AddTransient<RoleViewModel>(); 
+                services.AddTransient<UpdateRoleView>();
+                services.AddTransient<UpdateRoleViewModel>();
 
             }).Build();
         }

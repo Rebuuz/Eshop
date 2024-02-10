@@ -28,9 +28,9 @@ public partial class AddUserViewModel : ObservableObject
     private UserDto user = new UserDto();
 
     [RelayCommand]
-    private void AddUserToList(UserDto userDto)
+    private async Task AddUserToList(UserDto userDto)
     {
-        _userService.CreateUser(User);
+        await _userService.CreateUserAsync(User!);
 
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
