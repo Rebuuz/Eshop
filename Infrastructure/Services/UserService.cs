@@ -95,6 +95,104 @@ public class UserService(UserContext userContext, UserRepo userRepo, RoleService
 
     }
 
+    public async Task<UserEntity> UpdateUserAsync(UserDto updatedUser)
+    {
+        try
+        {
+            var existingEntity = await _userRepo.GetOneAsync(x => x.Id == updatedUser.Id);
+            if (existingEntity != null)
+            {
+                var roleEntity = await _roleService.CreateRoleAsync(updatedUser.RoleName);
+                var addressEntity = await _addressService.CreateAddressAsync(updatedUser.StreetName,
+                    updatedUser.City,
+                    updatedUser.PostalCode);
+
+                var userEntity = new UserEntity
+                {
+                    Id = updatedUser.Id,    
+                    Email = updatedUser.Email,
+                    RoleId = roleEntity.Id,
+                    AddressId = addressEntity.Id,
+                };
+
+                var userResult = await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, userEntity);
+
+                if (userResult != null)
+                {
+                    var contactInformationEntity = _contactInformationService.CreateContactInformationEntity(
+                        existingEntity.ContactInformation.FirstName = updatedUser.FirstName,
+                        existingEntity.ContactInformation.LastName = updatedUser.LastName,
+                        existingEntity.Id = updatedUser.Id,
+                        existingEntity.ContactInformation.PhoneNumber = updatedUser.PhoneNumber);
+                    var authenticationEntity = _authenticationService.CreateAuthenticationEntity(
+                        existingEntity.Authentication.UserName = updatedUser.UserName,
+                        existingEntity.Authentication.Password = updatedUser.Password,
+                        existingEntity.Id = updatedUser.Id);
+                }
+
+                return userResult!;
+
+
+            }
+
+        }
+        catch { }
+        return null!;
+    }
+
+
+    /// <summary>
+    /// Update user
+    /// </summary>
+    /// <param name="updatedUser"></param>
+    /// <returns></returns>
+
+    //public async Task<UserEntity> UpdateUserAsync(UserDto updatedUser)
+    //{
+    //    try
+    //    {
+    //        var existingEntity = await _userRepo.GetOneAsync(x => x.Id == updatedUser.Id);
+    //        if (existingEntity != null)
+    //        {
+    //            var roleEntity = await _roleService.CreateRoleAsync(existingEntity.Role.RoleName = updatedUser.RoleName);
+    //            var addressEntity = await _addressService.CreateAddressAsync(existingEntity.Address.StreetName = updatedUser.StreetName,
+    //                existingEntity.Address.City = updatedUser.City,
+    //                existingEntity.Address.PostalCode = updatedUser.PostalCode);
+
+    //            var userEntity = new UserEntity
+    //            {
+    //                Email = updatedUser.Email,
+    //                RoleId = roleEntity.Id,
+    //                AddressId = addressEntity.Id,
+    //            };
+
+    //            var userResult = await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, existingEntity);
+
+    //            if (userResult != null)
+    //            {
+    //                var contactInformationEntity = _contactInformationService.CreateContactInformationEntity(
+    //                    existingEntity.ContactInformation.FirstName = updatedUser.FirstName,
+    //                    existingEntity.ContactInformation.LastName = updatedUser.LastName,
+    //                    existingEntity.Id,
+    //                    existingEntity.ContactInformation.PhoneNumber = updatedUser.PhoneNumber);
+    //                var authenticationEntity = _authenticationService.CreateAuthenticationEntity(
+    //                    existingEntity.Authentication.UserName = updatedUser.UserName,
+    //                    existingEntity.Authentication.Password = updatedUser.Password,
+    //                    existingEntity.Id);
+    //            }
+
+    //            return userResult!;
+
+
+    //        }
+
+    //    }
+    //    catch { }
+    //    return null!;
+    //}
+
+
+
     //public async Task<UserDto> CreateUserAsync(UserDto user)
     //{
     //    try
@@ -274,49 +372,7 @@ public class UserService(UserContext userContext, UserRepo userRepo, RoleService
     //    return null!;
     //}
 
-    public async Task<UserEntity> UpdateUserAsync(UserDto updatedUser)
-    {
-        try
-        {
-            var existingEntity = await _userRepo.GetOneAsync(x => x.Id == updatedUser.Id);
-            if (existingEntity != null)
-            {
-                var roleEntity = await _roleService.CreateRoleAsync(existingEntity.Role.RoleName = updatedUser.RoleName);
-                var addressEntity = await _addressService.CreateAddressAsync(existingEntity.Address.StreetName = updatedUser.StreetName,
-                    existingEntity.Address.City = updatedUser.City,
-                    existingEntity.Address.PostalCode = updatedUser.PostalCode);
-
-                var userEntity = new UserEntity
-                {
-                    Email = updatedUser.Email,
-                    RoleId = roleEntity.Id,
-                    AddressId = addressEntity.Id,
-                };
-
-                var userResult = await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, existingEntity);
-
-                if (userResult != null)
-                {
-                    var contactInformationEntity = _contactInformationService.CreateContactInformationEntity(
-                        existingEntity.ContactInformation.FirstName = updatedUser.FirstName, 
-                        existingEntity.ContactInformation.LastName = updatedUser.LastName, 
-                        existingEntity.Id, 
-                        existingEntity.ContactInformation.PhoneNumber = updatedUser.PhoneNumber);
-                    var authenticationEntity = _authenticationService.CreateAuthenticationEntity(
-                        existingEntity.Authentication.UserName = updatedUser.UserName, 
-                        existingEntity.Authentication.Password = updatedUser.Password, 
-                        existingEntity.Id);
-                }
-
-                return userResult!;
-
-
-            }
-
-        }
-        catch { }
-        return null!;
-    }
+    
 
     //public async Task<UserEntity> UpdateUserAsync(UserDto updatedUser)
     //{
