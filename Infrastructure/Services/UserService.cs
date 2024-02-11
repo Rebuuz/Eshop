@@ -22,6 +22,8 @@ public class UserService(UserContext userContext, UserRepo userRepo, RoleService
     private readonly AuthenticationService _authenticationService = authenticationService;
     private readonly UserContext _userContext = userContext;
 
+   
+
     public UserDto CurrentUser { get; set; } = null!;
 
     /// <summary>
@@ -117,20 +119,11 @@ public class UserService(UserContext userContext, UserRepo userRepo, RoleService
 
                 var userResult = await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, userEntity);
 
-                if (userResult != null)
-                {
-                    var contactInformationEntity = _contactInformationService.CreateContactInformationEntity(
-                        existingEntity.ContactInformation.FirstName = updatedUser.FirstName,
-                        existingEntity.ContactInformation.LastName = updatedUser.LastName,
-                        existingEntity.Id = updatedUser.Id,
-                        existingEntity.ContactInformation.PhoneNumber = updatedUser.PhoneNumber);
-                    var authenticationEntity = _authenticationService.CreateAuthenticationEntity(
-                        existingEntity.Authentication.UserName = updatedUser.UserName,
-                        existingEntity.Authentication.Password = updatedUser.Password,
-                        existingEntity.Id = updatedUser.Id);
-                }
+                    await _contactInformationService.UpdateContactInformation(updatedUser.Id, updatedUser.FirstName, updatedUser.LastName, updatedUser.PhoneNumber);
+                    await _authenticationService.UpdateAuth(updatedUser.Id, updatedUser.UserName, updatedUser.Password);
 
-                return userResult!;
+               
+                return userResult;
 
 
             }

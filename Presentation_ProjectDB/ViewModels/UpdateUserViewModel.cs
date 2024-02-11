@@ -30,9 +30,22 @@ public partial class UpdateUserViewModel : ObservableObject
     {
         await _userService.UpdateUserAsync(User);
 
-        var mainVewModel = _sp.GetRequiredService<MainViewModel>();
-        mainVewModel.CurrentViewModel = _sp.GetRequiredService<DetailsUserViewModel>();
+        var userListViewModel = _sp.GetRequiredService<UserListViewModel>();
+        userListViewModel.UpdateUserInList(User);
+
+        var mainViewModel = _sp.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = userListViewModel;
     }
+
+    //[RelayCommand]
+    //private async Task UpdateUser()
+    //{
+    //     await _userService.UpdateUserAsync(User);
+       
+
+    //    var mainVewModel = _sp.GetRequiredService<MainViewModel>();
+    //    mainVewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
+    //}
 
     [RelayCommand]
     private void NavigateToList()

@@ -87,10 +87,25 @@ public class AuthenticationService
     /// </summary>
     /// <param name="authenticationEntity"></param>
     /// <returns></returns>
-    public AuthenticationEntity UpdateAuthentication(AuthenticationEntity authenticationEntity)
+   
+    public async Task<bool> UpdateAuth(Guid userId, string UserName, string Password)
     {
-        var updatedAuthenticationEntity = _authenticationRepo.Update(x => x.UserId == authenticationEntity.UserId, authenticationEntity);
-        return updatedAuthenticationEntity;
+        try
+        {
+            var newAuth = await _authenticationRepo.UpdateOneAsync(new AuthenticationEntity
+            {
+                UserId = userId,
+                UserName = UserName,
+                Password = Password
+            });
+            return newAuth != null;
+        }
+        catch (Exception)
+        {
+
+           
+        }
+        return false;
     }
 
     /// <summary>

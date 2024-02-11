@@ -22,17 +22,32 @@ public partial class UserListViewModel : ObservableObject
         _sp = sp;
         _userService = userService;
 
-        
+
         Users = new ObservableCollection<UserDto>(_userService.GetAllUsers());
 
         UserDto = _userService.CurrentUser;
+
+
     }
+
+    public void UpdateUserInList(UserDto updatedUser)
+    {
+        var existingUser = Users.FirstOrDefault(u => u.Id == updatedUser.Id);
+
+        if (existingUser != null)
+        {
+            
+            int index = Users.IndexOf(existingUser);
+            Users[index] = updatedUser;
+        }
+    }
+
+
+    [ObservableProperty]
+    private ObservableCollection<UserDto> _users = [];
 
     [ObservableProperty]
     private UserDto userDto = new();
-
-    [ObservableProperty]
-    private ObservableCollection<UserDto> _users = new ObservableCollection<UserDto>();
 
 
     [RelayCommand]

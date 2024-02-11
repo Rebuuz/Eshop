@@ -8,53 +8,65 @@
              xmlns:viewmodels="clr-namespace:Presentation_ProjectDB.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:DetailsUserViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="600">
+             d:DesignHeight="800" d:DesignWidth="1000">
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
 
-        <StackPanel DataContext="{Binding UserDto}" Grid.Row="0">
-            <Label FontSize="18" FontWeight="SemiBold" HorizontalContentAlignment="Center" Content="Contact Details" />
-            <Button Content="Edit Contact" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToUpdateCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-            <Button Content="Delete Contact" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="500"/>
+            </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Button Margin="10" HorizontalAlignment="Left" Width="150" Height="35" Background="#F0F0F0" Content="Go Back" Command="{Binding NavigateToListCommand}" />
         </StackPanel>
 
-        <StackPanel DataContext="{Binding UserDto}" Grid.Row="1">
-            <TextBlock FontWeight="Bold" Text="Name: "></TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding FirstName}"></TextBlock>
-                <TextBlock Text=" "/>
-                <TextBlock Text="{Binding LastName}"></TextBlock>
+        <StackPanel Margin="20" DataContext="{Binding UserDto}" Grid.Row="1" Grid.Column="0">
+                <TextBlock Margin="0,0,0,10" FontWeight="Bold" Text="First name: "/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding FirstName}"/>
+                <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Last name: "/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding LastName}"/>
             </StackPanel>
-            <TextBlock Text=""/>
-            <TextBlock FontWeight="Bold" Text="Email: "></TextBlock>
-            <TextBlock Text="{Binding Email}"></TextBlock>
-            <TextBlock Text=""/>
-            <TextBlock FontWeight="Bold" Text="Roll: "></TextBlock>
-            <TextBlock Text="{Binding RoleName}"></TextBlock>
-            <TextBlock Text=""/>
-            <TextBlock FontWeight="Bold" Text="Username: "></TextBlock>
-            <TextBlock Text="{Binding UserName}"></TextBlock>
-            <TextBlock Text=""/>
-            <TextBlock FontWeight="Bold" Text="Phone Number: "></TextBlock>
-            <TextBlock Text="{Binding PhoneNumber}"></TextBlock>
-            <TextBlock Text=""/>
-            <TextBlock FontWeight="Bold" Text="Address: "></TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding StreetName}"></TextBlock>
-                <TextBlock Text=" "/>
-                <TextBlock Text="{Binding City}"></TextBlock>
-                <TextBlock Text=" "/>
-                <TextBlock Text="{Binding PostalCode}"></TextBlock>
-            </StackPanel>
-        </StackPanel>
 
-        <StackPanel Grid.Row="2">
-            <Button Margin="10" Width="150" Content="Go Back" Command="{Binding NavigateToListCommand}" />
+            <StackPanel Margin="20" DataContext="{Binding UserDto}" Grid.Row="1" Grid.Column="1">
+                <TextBlock Margin="0,0,0,10" FontWeight="Bold" Text="Email: "/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding Email}" />
+                <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Role: "/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding RoleName}"/>
+            </StackPanel>
+
+            <StackPanel Margin="20" DataContext="{Binding UserDto}" Grid.Column="0" Grid.Row="2">
+                <TextBlock Margin="0,0,0,10" FontWeight="Bold" Text="Username:"/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding UserName}"/>
+                <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Password:"/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding Password}"/>
+                <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Phone number:"/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding PhoneNumber}"/>
+            </StackPanel>
+
+            <StackPanel Margin="20" DataContext="{Binding UserDto}" Grid.Column="1" Grid.Row="2">
+                <TextBlock Margin="0,0,0,10" FontWeight="Bold" Text="Street name:"/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding StreetName}"/>
+                <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="City:"/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding City}"/>
+                <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Postal code:"/>
+                <TextBox Foreground="Gray" IsReadOnly="true" Padding="5" Text="{Binding PostalCode}"/>
+            </StackPanel>
+
+
+       
+        <StackPanel Grid.Row="3" Grid.Column="0">
+            <Button Margin="10" HorizontalAlignment="Right" Width="150" Height="35" Background="#E1AA74" Content="Update" Command="{Binding NavigateToUpdateCommand}" />
+            
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="1">
+            <Button Margin="10" HorizontalAlignment="Left" Width="150" Height="35" Background="#9A3B3B" Content="Delete" Command="{Binding NavigateToDeleteCommand}" />
         </StackPanel>
     </Grid>
 </UserControl>

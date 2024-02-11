@@ -26,9 +26,9 @@
             <Label Margin="20,0,0,0" Padding="10" Foreground="#FFFFFF" FontFamily="Calibri" FontSize="20" HorizontalContentAlignment="Left" Content="List of All Roles" />
         </StackPanel>
 
-        <TextBox Margin="20" Padding="10" Grid.Column="0" Grid.Row="0" Text="{Binding Role.RoleName}"></TextBox>
-        <Button HorizontalAlignment="Right" Grid.Column="1" Height="30"  Width="auto" Content="Add Role" Command="{Binding AddRoleToListCommand}" BorderBrush="#060811" Margin="10,0,20,0" BorderThickness="2,2,2,2" Background="#F0F0F0" Padding="5,5,5,5" />
-
+        <TextBox Text="{Binding NewRole.RoleName}" Margin="20" Padding="10" Grid.Column="0" Grid.Row="0" ></TextBox>
+        <Button HorizontalAlignment="Right" Grid.Column="1" Height="30"  Width="auto" Content="Add" Command="{Binding AddRoleToListCommand}" BorderBrush="#060811" Margin="10,0,20,0" BorderThickness="2,2,2,2" Background="#F0F0F0" Padding="5,5,5,5" />
+        <Button Grid.Row="1" HorizontalAlignment="Right" Grid.Column="1" Height="30"  Width="auto" Content="Back" Command="{Binding NavigateToListCommand}" BorderBrush="#060811" Margin="10,0,20,0" BorderThickness="2,2,2,2" Background="#F0F0F0" Padding="5,5,5,5" />
 
         <ListView Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Roles}" HorizontalContentAlignment="Stretch" Margin="20"  BorderBrush="#FF02040C" BorderThickness="2,2,2,2" Height="400" VerticalAlignment="Top">
             <ListView.ItemTemplate>
@@ -45,7 +45,7 @@
                         </WrapPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Button BorderBrush="#060811" Background="#E1AA74" Content="..." Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateRoleCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                            <Button BorderBrush="#060811" Background="#E1AA74" Content="..." Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToUpdateRoleCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
                             <Button BorderBrush="#060811" Background="#9A3B3B" Content="x" Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
                         </StackPanel>
                     </Grid>

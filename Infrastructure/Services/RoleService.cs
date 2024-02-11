@@ -54,6 +54,19 @@ public class RoleService
         return null!;
     }
 
+    //public async Task<RoleEntity> CreateRoleAsync(string rolename)
+    //{
+    //    try
+    //    {
+    //        var result = await _roleRepo.GetOneAsync(x => x.RoleName == rolename);
+    //        result ??= await _roleRepo.CreateAsync(new RoleEntity { RoleName = rolename });
+
+    //        return new RoleEntity { Id = result.Id, RoleName = result.RoleName };
+    //    }
+    //    catch { }
+    //    return null!;
+    //}
+
 
     /// <summary>
     /// Get RoleName by Rolename
@@ -144,9 +157,9 @@ public class RoleService
     /// Delete a role
     /// </summary>
     /// <param name="id"></param>
-    public bool DeleteRole(int id)
+    public bool DeleteRole(RoleDto roleDto)
     {
-        _roleRepo.Delete(x => x.Id == id);
+        _roleRepo.Delete(x => x.Id == roleDto.Id);
         return true;
     }
 

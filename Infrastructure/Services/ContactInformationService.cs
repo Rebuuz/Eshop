@@ -48,12 +48,12 @@ public class ContactInformationService
 
     }
 
-    public async Task<ContactInformationDto> CreateContactInformationAsync(string firstname, string lastname, string? phonenumber, Guid userId)
+    public async Task<ContactInformationDto> CreateContactInformationAsync(string firstName, string lastName, string? phoneNumber, Guid userId)
     {
         try
         {
-            var result = await _contactInformationRepo.GetOneAsync(x => x.FirstName == firstname && x.LastName == lastname && x.PhoneNumber == phonenumber && x.UserId == userId );
-            result ??= await _contactInformationRepo.CreateAsync(new ContactInformationEntity { FirstName = firstname, LastName = lastname, PhoneNumber = phonenumber, UserId = userId });
+            var result = await _contactInformationRepo.GetOneAsync(x => x.FirstName == firstName && x.LastName == lastName && x.PhoneNumber == phoneNumber && x.UserId == userId );
+            result ??= await _contactInformationRepo.CreateAsync(new ContactInformationEntity { FirstName = firstName, LastName = lastName, PhoneNumber = phoneNumber, UserId = userId });
 
             return new ContactInformationDto { FirstName = result.FirstName, LastName = result.LastName, PhoneNumber = result.PhoneNumber, UserId = result.UserId };
         }
@@ -89,10 +89,24 @@ public class ContactInformationService
     /// </summary>
     /// <param name="authenticationEntity"></param>
     /// <returns></returns>
-    public ContactInformationEntity UpdateContactInformation(ContactInformationEntity contactInformationEntity)
+    public async Task<bool> UpdateContactInformation(Guid userId, string FirstName, string LastName, string? PhoneNumber)
     {
-        var updatedcontactInformationEntity = _contactInformationRepo.Update(x => x.UserId == contactInformationEntity.UserId, contactInformationEntity);
-        return contactInformationEntity;
+        try
+        {
+            var newContactInformation = await _contactInformationRepo.UpdateOneAsync(new ContactInformationEntity
+            {
+                UserId = userId,
+                FirstName = FirstName,
+                LastName = LastName,
+                PhoneNumber = PhoneNumber
+            });
+            return newContactInformation != null;
+        }
+        catch (Exception)
+        {
+
+        }
+        return false;
     }
 
     /// <summary>

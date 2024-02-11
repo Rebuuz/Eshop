@@ -8,13 +8,13 @@
              xmlns:viewmodels="clr-namespace:Presentation_ProjectDB.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:UserListViewModel}"
              
-             mc:Ignorable="d" d:DesignWidth="1000" Height="500">
+             mc:Ignorable="d" d:DesignWidth="800" Height="500">
     <Grid Background="#252B48">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="5*" />
-            <RowDefinition Height="auto" MinHeight="420" />
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -28,7 +28,7 @@
         </StackPanel>
 
         <Button HorizontalAlignment="Left" Grid.Column="1"  Width="90" Content="Add New User" Command="{Binding NavigateToAddUserCommand}" BorderBrush="#060811" Margin="0,10,0,10" BorderThickness="2,2,2,2" Background="#F0F0F0" Padding="5,5,5,5" Grid.RowSpan="2" />
-        <Button Grid.Row="2" HorizontalAlignment="Right" Grid.Column="1"  Width="90" Content="Add New Role" Command="{Binding NavigateToRoleListCommand}" BorderBrush="#060811" Margin="0,0,20,390" BorderThickness="2,2,2,2" Background="#F0F0F0" Padding="5,5,5,5" />
+        <Button Grid.Row="2" HorizontalAlignment="Right" Grid.Column="1"  Width="90" Content="Roles" Command="{Binding NavigateToRoleListCommand}" BorderBrush="#060811" Margin="0,0,20,390" BorderThickness="2,2,2,2" Background="#F0F0F0" Padding="5,5,5,5" />
 
 
         <ListView Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Users}" HorizontalContentAlignment="Stretch" Margin="20,0,20,0"  BorderBrush="#FF02040C" BorderThickness="2,2,2,2" Height="400" VerticalAlignment="Center">
@@ -41,16 +41,20 @@
                         </Grid.ColumnDefinitions>
 
                         <WrapPanel  Grid.Column="0" Orientation="Vertical">
-                            <TextBlock Text="{Binding FirstName}" FontWeight="SemiBold" VerticalAlignment="Center">
-                            </TextBlock>
+                            <!--<TextBlock Text="{Binding FirstName}" FontWeight="SemiBold" VerticalAlignment="Center">
 
+                            </TextBlock>-->
+                            <TextBlock>
+                                <Run Text="{Binding FirstName}"></Run>
+                                <Run Text="{Binding LastName}"></Run>
+                            </TextBlock>
                             <TextBlock Foreground="Gray" Text="{Binding Email}"></TextBlock>
                         </WrapPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Button BorderBrush="#060811" Background="#F0F0F0" Content="i" Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDetailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-                            <Button BorderBrush="#060811" Background="#E1AA74" Content="..." Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToUpdateCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-                            <Button BorderBrush="#060811" Background="#9A3B3B" Content="x" Width="25" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                            <Button BorderBrush="#060811" Background="#F0F0F0" Content="Details" Width="60" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDetailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                            <Button BorderBrush="#060811" Background="#E1AA74" Content="Edit" Width="60" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToUpdateCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                            <Button BorderBrush="#060811" Background="#9A3B3B" Content="Delete" Width="60" Height="25" Margin="5" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.NavigateToDeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

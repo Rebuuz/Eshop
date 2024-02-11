@@ -8,39 +8,61 @@
              xmlns:viewmodels="clr-namespace:Presentation_ProjectDB.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:UpdateUserViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="600">
+             d:DesignHeight="800" d:DesignWidth="1000">
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel DataContext="{Binding User}" Grid.Row="0">
-            <Label HorizontalContentAlignment="Center" Margin="20" Content="Update User"  />
-            <Label Content="Role"></Label>
-            <TextBox Text="{Binding RoleName}"></TextBox>
-            <Label Content="First Name"></Label>
-            <TextBox Text="{Binding FirstName}"></TextBox>
-            <Label Content="Last Name"></Label>
-            <TextBox Text="{Binding LastName}"></TextBox>
-            <Label Content="Email"></Label>
-            <TextBox Text="{Binding Email}"></TextBox>
-            <Label Content="Phone Number"></Label>
-            <TextBox Text="{Binding PhoneNumber}"></TextBox>
-            <Label Content="Address"></Label>
-            <TextBox Text="{Binding StreetName}"></TextBox>
-            <Label Content="City"></Label>
-            <TextBox Text="{Binding City}"></TextBox>
-            <Label Content="Postal Code"></Label>
-            <TextBox Text="{Binding PostalCode}"></TextBox>
-            <Label Content="Username"></Label>
-            <TextBox Text="{Binding UserName}"></TextBox>
-            <Label Content="Password"></Label>
-            <TextBox Text="{Binding Password}"></TextBox>
-            <Button Content="Save User" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateUserCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-            <Button Content="Save Email" Width="100" Margin="10" CommandParameter="{Binding .}" Command="{Binding Path=DataContext.UpdateUserEmailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="500"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Button Margin="10" HorizontalAlignment="Left" Width="150" Height="35" Background="#F0F0F0" Content="Go Back" Command="{Binding NavigateToListCommand}" />
         </StackPanel>
-        <Button Grid.Row="1" Height="20" Width="200" Margin="0,20,0,0" Content="Go Back to List" Command="{Binding NavigateToListCommand}" />
+
+        <StackPanel Margin="20" DataContext="{Binding User}" Grid.Row="1" Grid.Column="0">
+            <TextBlock Margin="0,0,0,10" FontWeight="Bold" Text="First name: "/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding FirstName}"/>
+            <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Last name: "/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding LastName}"/>
+        </StackPanel>
+
+        <StackPanel Margin="20" DataContext="{Binding User}" Grid.Row="1" Grid.Column="1">
+            <TextBlock Margin="0,0,0,10" FontWeight="Bold" Text="Email: "/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding Email}" />
+            <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Role: "/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding RoleName}"/>
+        </StackPanel>
+
+        <StackPanel Margin="20" DataContext="{Binding User}" Grid.Column="0" Grid.Row="2">
+            <TextBlock Margin="0,0,0,10" FontWeight="Bold" Text="Username:"/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding UserName}"/>
+            <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Password:"/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding Password}"/>
+            <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Phone number:"/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding PhoneNumber}"/>
+        </StackPanel>
+
+        <StackPanel Margin="20" DataContext="{Binding User}" Grid.Column="1" Grid.Row="2">
+            <TextBlock Margin="0,0,0,10" FontWeight="Bold" Text="Street name:"/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding StreetName}"/>
+            <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="City:"/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding City}"/>
+            <TextBlock Margin="0,10,0,10" FontWeight="Bold" Text="Postal code:"/>
+            <TextBox IsReadOnly="false" Padding="5" Text="{Binding PostalCode}"/>
+        </StackPanel>
+
+
+
+        <StackPanel Grid.Row="3" Grid.Column="0">
+            <Button Margin="10" HorizontalAlignment="Right" Width="150" Height="35" Background="#E1AA74" Content="Save" Command="{Binding UpdateUserCommand}" />
+        </StackPanel>
     </Grid>
 </UserControl>

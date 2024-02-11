@@ -7,6 +7,7 @@ using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Windows;
 
 namespace Presentation_ProjectDB.ViewModels;
 
@@ -33,11 +34,44 @@ public partial class UpdateRoleViewModel : ObservableObject
 
 
     [RelayCommand]
-    private async Task UpdateRole()
+    private async Task UpdatedRole()
     {
         await _roleService.UpdateRoleAsync(Role);
 
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<RoleViewModel>();
+    }
+
+    [RelayCommand]
+    private void NavigateToRoleList()
+    {
+        var mainViewModel = _sp.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _sp.GetRequiredService<RoleViewModel>();
+    }
+
+    [RelayCommand]
+    private void NavigateToUpdateRole(RoleDto role)
+    {
+
+        _roleService.CurrentRole = role;
+
+        var mainViewModel = _sp.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _sp.GetRequiredService<UpdateRoleViewModel>();
+    }
+
+    [RelayCommand]
+    private void NavigateToDelete(RoleDto role)
+    {
+
+        MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this role?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            _roleService.DeleteRole(role);
+
+            var mainViewModel = _sp.GetRequiredService<MainViewModel>();
+            mainViewModel.CurrentViewModel = _sp.GetRequiredService<RoleViewModel>();
+        }
+
     }
 }
