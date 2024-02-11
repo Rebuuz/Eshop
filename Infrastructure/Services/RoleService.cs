@@ -54,18 +54,7 @@ public class RoleService
         return null!;
     }
 
-    //public async Task<RoleEntity> CreateRoleAsync(string rolename)
-    //{
-    //    try
-    //    {
-    //        var result = await _roleRepo.GetOneAsync(x => x.RoleName == rolename);
-    //        result ??= await _roleRepo.CreateAsync(new RoleEntity { RoleName = rolename });
-
-    //        return new RoleEntity { Id = result.Id, RoleName = result.RoleName };
-    //    }
-    //    catch { }
-    //    return null!;
-    //}
+    
 
 
     /// <summary>
@@ -147,11 +136,7 @@ public class RoleService
        
     }
 
-    //public async Task<RoleEntity> UpdateUser(RoleEntity role)
-    //{
-    //    var updatedRoleEntity = await _roleRepo.Update(x => x.Id == role.Id, role);
-    //    return updatedRoleEntity;
-    //}
+   
 
     /// <summary>
     /// Delete a role

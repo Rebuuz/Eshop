@@ -37,6 +37,11 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return null!;
     }
 
+    /// <summary>
+    /// Create async method
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
     public virtual async Task<TEntity> CreateAsync(TEntity entity)
     {
         try
@@ -79,6 +84,11 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return null!;
     }
 
+    /// <summary>
+    /// Get one async method
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public virtual async Task <TEntity> GetOneAsync(Expression<Func<TEntity, bool>> predicate)
     {
         try
@@ -113,6 +123,12 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return null!;
     }
 
+    /// <summary>
+    /// Update async method
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
     public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity entity)
     {
         try
@@ -130,6 +146,12 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return null!;
     }
 
+
+    /// <summary>
+    /// Update one async method
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
     public virtual async Task<TEntity> UpdateOneAsync(TEntity entity)
     {
         try
@@ -144,9 +166,6 @@ public abstract class BaseRepo<TEntity> where TEntity : class
 
 
 
-
-    /////Update 
-    //public abstract TEntity Update(TEntity entity);
 
 
         /// <summary>
@@ -168,6 +187,11 @@ public abstract class BaseRepo<TEntity> where TEntity : class
         return false;
     }
 
+    /// <summary>
+    /// If exists method
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public bool Exists(Expression<Func<TEntity, bool>> predicate)
     {
         try

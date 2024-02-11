@@ -46,6 +46,13 @@ public class AuthenticationService
 
     }
 
+    /// <summary>
+    /// Create auth async method
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     public async Task<AuthenticationDto> CreateAuthenticationAsync(string username, string password, Guid userId)
     {
         try

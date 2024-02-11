@@ -33,6 +33,10 @@ public partial class UpdateRoleViewModel : ObservableObject
     private RoleDto role = new RoleDto();
 
 
+    /// <summary>
+    /// Update role button
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task UpdatedRole()
     {
@@ -42,6 +46,9 @@ public partial class UpdateRoleViewModel : ObservableObject
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<RoleViewModel>();
     }
 
+    /// <summary>
+    /// Navigate to list 
+    /// </summary>
     [RelayCommand]
     private void NavigateToRoleList()
     {
@@ -49,6 +56,10 @@ public partial class UpdateRoleViewModel : ObservableObject
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<RoleViewModel>();
     }
 
+    /// <summary>
+    /// Navigate to Update role
+    /// </summary>
+    /// <param name="role"></param>
     [RelayCommand]
     private void NavigateToUpdateRole(RoleDto role)
     {
@@ -59,6 +70,10 @@ public partial class UpdateRoleViewModel : ObservableObject
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UpdateRoleViewModel>();
     }
 
+    /// <summary>
+    /// Navigate to delete
+    /// </summary>
+    /// <param name="role"></param>
     [RelayCommand]
     private void NavigateToDelete(RoleDto role)
     {

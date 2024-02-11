@@ -35,6 +35,10 @@ public partial class RoleViewModel : ObservableObject
     RoleDto _newRole = new();
 
 
+    /// <summary>
+    /// Relay command for add role to list
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task AddRoleToList()
     {
@@ -53,6 +57,9 @@ public partial class RoleViewModel : ObservableObject
         
     }
 
+    /// <summary>
+    /// Navigate to List
+    /// </summary>
     [RelayCommand]
     private void NavigateToList()
     {
@@ -60,6 +67,10 @@ public partial class RoleViewModel : ObservableObject
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
     }
 
+    /// <summary>
+    /// Navigate to update role
+    /// </summary>
+    /// <param name="role"></param>
     [RelayCommand]  
     private void NavigateToUpdateRole(RoleDto role)
     {
@@ -70,6 +81,10 @@ public partial class RoleViewModel : ObservableObject
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UpdateRoleViewModel>();
     }
 
+    /// <summary>
+    /// Navigate to Delete role
+    /// </summary>
+    /// <param name="role"></param>
     [RelayCommand]
     private void NavigateToDelete(RoleDto role)
     {

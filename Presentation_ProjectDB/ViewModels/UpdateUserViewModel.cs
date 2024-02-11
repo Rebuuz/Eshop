@@ -25,34 +25,33 @@ public partial class UpdateUserViewModel : ObservableObject
     [ObservableProperty]
     private UserDto user = new UserDto();
 
+    /// <summary>
+    /// Forces an update of the list after updating user
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task UpdateUser()
     {
         await _userService.UpdateUserAsync(User);
 
-        var userListViewModel = _sp.GetRequiredService<UserListViewModel>();
-        userListViewModel.UpdateUserInList(User);
-
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = userListViewModel;
+        mainViewModel.CurrentViewModel = _sp.GetRequiredService<DetailsUserViewModel>();
     }
 
-    //[RelayCommand]
-    //private async Task UpdateUser()
-    //{
-    //     await _userService.UpdateUserAsync(User);
-       
-
-    //    var mainVewModel = _sp.GetRequiredService<MainViewModel>();
-    //    mainVewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
-    //}
-
+    /// <summary>
+    /// Navigates to user list
+    /// </summary>
     [RelayCommand]
     private void NavigateToList()
     {
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
     }
+
+    /// <summary>
+    /// Navigate to update
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task UpdateUserEmail()
     {

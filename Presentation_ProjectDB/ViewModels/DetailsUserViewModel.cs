@@ -34,6 +34,9 @@ public partial class DetailsUserViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<UserDto> _users = [];
 
+    /// <summary>
+    /// Relay command for list 
+    /// </summary>
     [RelayCommand]
     private void NavigateToList()
     {
@@ -45,6 +48,11 @@ public partial class DetailsUserViewModel : ObservableObject
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
     }
+
+    /// <summary>
+    /// Relay command for delete
+    /// </summary>
+    /// <param name="userDto"></param>
 
     [RelayCommand]
     private void NavigateToDelete(UserDto userDto)
@@ -63,6 +71,9 @@ public partial class DetailsUserViewModel : ObservableObject
        
     }
 
+    /// <summary>
+    /// Relay command for update
+    /// </summary>
     [RelayCommand]
     private void NavigateToUpdate()
     {

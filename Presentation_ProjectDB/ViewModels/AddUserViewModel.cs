@@ -27,6 +27,11 @@ public partial class AddUserViewModel : ObservableObject
     [ObservableProperty]
     private UserDto user = new UserDto();
 
+    /// <summary>
+    /// Relay command for add user
+    /// </summary>
+    /// <param name="userDto"></param>
+    /// <returns></returns>
     [RelayCommand]
     private async Task AddUserToList(UserDto userDto)
     {
@@ -36,6 +41,9 @@ public partial class AddUserViewModel : ObservableObject
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
     }
 
+    /// <summary>
+    /// Relay command for list 
+    /// </summary>
     [RelayCommand]
     private void NavigateToList()
     {

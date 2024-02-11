@@ -30,17 +30,8 @@ public partial class UserListViewModel : ObservableObject
 
     }
 
-    public void UpdateUserInList(UserDto updatedUser)
-    {
-        var existingUser = Users.FirstOrDefault(u => u.Id == updatedUser.Id);
 
-        if (existingUser != null)
-        {
-            
-            int index = Users.IndexOf(existingUser);
-            Users[index] = updatedUser;
-        }
-    }
+
 
 
     [ObservableProperty]
@@ -49,7 +40,9 @@ public partial class UserListViewModel : ObservableObject
     [ObservableProperty]
     private UserDto userDto = new();
 
-
+    /// <summary>
+    /// Navigates to add 
+    /// </summary>
     [RelayCommand]
     private void NavigateToAddUser()
     {

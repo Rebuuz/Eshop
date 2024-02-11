@@ -109,6 +109,8 @@ public class ContactInformationService
         return false;
     }
 
+
+
     /// <summary>
     /// Delete password/username
     /// </summary>
