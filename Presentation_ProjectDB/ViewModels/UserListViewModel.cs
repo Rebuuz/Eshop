@@ -69,6 +69,8 @@ public partial class UserListViewModel : ObservableObject
         {
             _userService.Delete(userDto);
 
+            Users = new ObservableCollection<UserDto>(_userService.GetAllUsers());
+
             var mainViewModel = _sp.GetRequiredService<MainViewModel>();
             mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
         }

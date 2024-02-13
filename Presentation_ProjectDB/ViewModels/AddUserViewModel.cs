@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Infrastructure.Dtos;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.ObjectModel;
 
 namespace Presentation_ProjectDB.ViewModels;
 
@@ -22,7 +23,11 @@ public partial class AddUserViewModel : ObservableObject
     {
         _sp = sp;
         _userService = userService;
+
     }
+
+    [ObservableProperty]
+    private ObservableCollection<UserDto> _users = [];
 
     [ObservableProperty]
     private UserDto user = new UserDto();
@@ -36,6 +41,7 @@ public partial class AddUserViewModel : ObservableObject
     private async Task AddUserToList(UserDto userDto)
     {
         await _userService.CreateUserAsync(User!);
+
 
         var mainViewModel = _sp.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _sp.GetRequiredService<UserListViewModel>();
