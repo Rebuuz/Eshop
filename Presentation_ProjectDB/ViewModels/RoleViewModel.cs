@@ -95,6 +95,8 @@ public partial class RoleViewModel : ObservableObject
         {
             _roleService.DeleteRole(role);
 
+            Roles = new ObservableCollection<RoleDto>(_roleService.GetAllRoles());
+
             var mainViewModel = _sp.GetRequiredService<MainViewModel>();
             mainViewModel.CurrentViewModel = _sp.GetRequiredService<RoleViewModel>();
         }

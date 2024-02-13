@@ -37,20 +37,20 @@ namespace Presentation_ProjectDB
                 services.AddScoped<ContactInformationService>();
                 services.AddScoped<AuthenticationService>();
 
-                services.AddScoped<MainWindow>();
-                services.AddScoped<UserListViewModel>();
-                services.AddScoped<UserListView>();
-                services.AddScoped<MainViewModel>();
-                services.AddScoped<AddUserViewModel>();
-                services.AddScoped<AddUserView>();
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<UserListViewModel>();
+                services.AddSingleton<UserListView>();
+                services.AddSingleton<MainViewModel>();
+                services.AddTransient<AddUserViewModel>();
+                services.AddTransient<AddUserView>();
                 services.AddScoped<DetailsUserViewModel>();
                 services.AddScoped<DetailUserView>();
-                services.AddScoped<UpdateUserViewModel>();
-                services.AddScoped<UpdateUserView>();
-                services.AddScoped<RoleView>();
-                services.AddScoped<RoleViewModel>(); 
-                services.AddScoped<UpdateRoleView>();
-                services.AddScoped<UpdateRoleViewModel>();
+                services.AddSingleton<UpdateUserViewModel>();
+                services.AddSingleton<UpdateUserView>();
+                services.AddSingleton<RoleView>();
+                services.AddSingleton<RoleViewModel>(); 
+                services.AddSingleton<UpdateRoleView>();
+                services.AddSingleton<UpdateRoleViewModel>();
 
             }).Build();
         }
