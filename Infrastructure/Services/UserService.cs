@@ -140,12 +140,18 @@ public class UserService(UserContext userContext, UserRepo userRepo, RoleService
 
                 var userResult = await _userRepo.UpdateAsync(x => x.Id == updatedUser.Id, userEntity);
 
-                    await _contactInformationService.UpdateContactInformation(updatedUser.Id, updatedUser.FirstName, updatedUser.LastName, updatedUser.PhoneNumber);
-                    await _authenticationService.UpdateAuth(updatedUser.Id, updatedUser.UserName, updatedUser.Password);
+                if (userResult != null)
+                {
+                    await _contactInformationService.UpdateContactInformation(userResult.Id, updatedUser.FirstName, updatedUser.LastName, updatedUser.PhoneNumber);
+                    await _authenticationService.UpdateAuth(userResult.Id, updatedUser.UserName, updatedUser.Password);
+
+                    return userResult;
+                }
+                
 
                 
                 ClearUserCache(updatedUser.Id);
-                return userResult;
+                
 
 
             }

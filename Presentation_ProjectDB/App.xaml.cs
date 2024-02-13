@@ -24,7 +24,7 @@ namespace Presentation_ProjectDB
         {
             builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
             {
-               services.AddDbContext<UserContext>(x => x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\EC\Datalagring\ProjectDB\Infrastructure\Data\users_db.mdf;Integrated Security=True;Connect Timeout=30"), ServiceLifetime.Transient);
+               services.AddDbContext<UserContext>(x => x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\EC\Datalagring\ProjectDB\Infrastructure\Data\users_db.mdf;Integrated Security=True;Connect Timeout=30"));
 
                 services.AddScoped<RoleRepo>();
                 services.AddScoped<AddressRepo>();
@@ -37,20 +37,20 @@ namespace Presentation_ProjectDB
                 services.AddScoped<ContactInformationService>();
                 services.AddScoped<AuthenticationService>();
 
-                services.AddSingleton<MainWindow>();
-                services.AddTransient<UserListViewModel>();
-                services.AddTransient<UserListView>();
-                services.AddSingleton<MainViewModel>();
-                services.AddTransient<AddUserViewModel>();
-                services.AddTransient<AddUserView>();
-                services.AddTransient<DetailsUserViewModel>();
-                services.AddTransient<DetailUserView>();
-                services.AddTransient<UpdateUserViewModel>();
-                services.AddTransient<UpdateUserView>();
-                services.AddTransient<RoleView>();
-                services.AddTransient<RoleViewModel>(); 
-                services.AddTransient<UpdateRoleView>();
-                services.AddTransient<UpdateRoleViewModel>();
+                services.AddScoped<MainWindow>();
+                services.AddScoped<UserListViewModel>();
+                services.AddScoped<UserListView>();
+                services.AddScoped<MainViewModel>();
+                services.AddScoped<AddUserViewModel>();
+                services.AddScoped<AddUserView>();
+                services.AddScoped<DetailsUserViewModel>();
+                services.AddScoped<DetailUserView>();
+                services.AddScoped<UpdateUserViewModel>();
+                services.AddScoped<UpdateUserView>();
+                services.AddScoped<RoleView>();
+                services.AddScoped<RoleViewModel>(); 
+                services.AddScoped<UpdateRoleView>();
+                services.AddScoped<UpdateRoleViewModel>();
 
             }).Build();
         }

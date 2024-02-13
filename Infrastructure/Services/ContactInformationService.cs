@@ -109,6 +109,35 @@ public class ContactInformationService
         return false;
     }
 
+    public async Task<ContactInformationEntity> UpdateContactInfoAsync(ContactInformationEntity updatedContactInfo)
+    {
+        try
+        {
+            var entity = await _contactInformationRepo.GetOneAsync(x => x.UserId == updatedContactInfo.UserId);
+            if (entity != null)
+            {
+                entity.UserId = updatedContactInfo.UserId;
+                entity.FirstName = updatedContactInfo.FirstName;
+                entity.LastName = updatedContactInfo.LastName;
+                entity.PhoneNumber = updatedContactInfo.PhoneNumber;
+
+                var updatedContactInfoEntity = await _contactInformationRepo.UpdateOneAsync(entity);
+                if (updatedContactInfoEntity != null)
+                    return new ContactInformationEntity
+                    {
+                        UserId = updatedContactInfoEntity.UserId,
+                        FirstName = updatedContactInfoEntity.FirstName,
+                        LastName = updatedContactInfoEntity.LastName,
+                        PhoneNumber = updatedContactInfoEntity.PhoneNumber
+                    };
+            }
+        }
+        catch { }
+        return null!;
+
+
+    }
+
 
 
     /// <summary>
